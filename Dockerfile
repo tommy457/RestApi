@@ -1,12 +1,14 @@
-FROM python:3.9-alpine3.13
+FROM python:3.7-alpine
 LABEL maintainer "tommy457"
 
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /tmp/requirements.txt
+WORKDIR /app
+
+
+COPY ./requirements.txt /tmp
 
 COPY ./app /app
-WORKDIR /app
 EXPOSE 8000
 
 RUN python -m venv /py && \
@@ -18,6 +20,6 @@ RUN python -m venv /py && \
         --no-create-home \
         tommy
 
-ENV PATH="/py/bin$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER tommy
