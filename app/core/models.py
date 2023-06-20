@@ -1,7 +1,11 @@
 """Database models"""
 
 from django.db import models
-from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    PermissionsMixin,
+    AbstractBaseUser,
+    BaseUserManager
+    )
 
 
 class CustomUserManager(BaseUserManager):
@@ -13,7 +17,9 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError("Users must have emails")
 
-        user = self.model(email = self.normalize_email(email), **extra_fields)
+        user = self.model(email=self.normalize_email(
+            email), **extra_fields
+            )
         user.set_password(password)
         user.save(using=self._db)
 
@@ -29,6 +35,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system."""
@@ -46,5 +53,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_super_user = models.BooleanField(default=False)
 
     objects = CustomUserManager()
-
-
